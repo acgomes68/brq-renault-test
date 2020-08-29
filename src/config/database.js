@@ -7,9 +7,6 @@ const {
     POSTGRES_USER,
     POSTGRES_PASSWD,
     POSTGRES_DATABASE,
-    MONGO_HOST,
-    MONGO_PORT,
-    MONGO_DATABASE,
 } = process.env;
 
 module.exports = {
@@ -24,10 +21,5 @@ module.exports = {
             underscored: true,
             underscoredAll: true,
         },
-    },
-    mongo: {
-        host: MONGO_HOST,
-        port: MONGO_PORT,
-        database: MONGO_DATABASE,
     },
 };
