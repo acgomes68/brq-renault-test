@@ -1,19 +1,13 @@
 import * as Yup from 'yup';
-import { startOfHour, parseISO, isBefore, format, subHours } from 'date-fns';
-import pt from 'date-fns/locale/pt';
-import Appointment from '../models/Appointment';
+import { startOfHour, parseISO, isBefore, subHours } from 'date-fns';
+import Stat from '../models/Stat';
 import User from '../models/User';
-import File from '../models/File';
-import Notification from '../schemas/Notification';
-
-import CancellationMail from '../jobs/CancellationMail';
-import Queue from '../../lib/Queue';
 
 class StatController {
     async index(req, res) {
         const { page = 1 } = req.query;
 
-        const appointments = await Appointment.findAll({
+        const stats = await Stat.findAll({
             where: { user_id: req.userId, canceled_at: null },
             order: ['date'],
             attributes: ['id', 'date', 'past', 'cancelable'],
@@ -29,17 +23,16 @@ class StatController {
                     model: User,
                     as: 'provider',
                     attributes: ['id', 'name', 'email'],
-                    include: [
-                        {
-                            model: File,
-                            as: 'avatar',
-                            attributes: ['id', 'path', 'url'],
-                        },
-                    ],
                 },
             ],
         });
-        return res.json(appointments);
+        return res.json(stats);
+    }
+
+    async show(req, res) {
+        const { id } = req.params;
+        const stat = await Stat.findByPk(id);
+        return res.json(stat);
     }
 
     async store(req, res) {
@@ -60,7 +53,7 @@ class StatController {
 
         if (!checkIsProvider) {
             return res.status(401).json({
-                error: 'You can only create appointments with providers',
+                error: 'You can only create stats with providers',
             });
         }
 
@@ -72,7 +65,7 @@ class StatController {
                 .json({ error: 'Past dates are not permitted' });
         }
 
-        const checkAvailability = await Appointment.findOne({
+        const checkAvailability = await Stat.findOne({
             where: {
                 provider_id,
                 canceled_at: null,
@@ -83,34 +76,20 @@ class StatController {
         if (checkAvailability) {
             return res
                 .status(400)
-                .json({ error: 'Appointment date is not available' });
+                .json({ error: 'Stat date is not available' });
         }
 
-        const appointment = await Appointment.create({
+        const stat = await Stat.create({
             user_id: req.userId,
             provider_id,
             date: hourStart,
         });
 
-        const user = await User.findByPk(req.userId);
-        const formattedDate = format(
-            hourStart,
-            "'dia' dd 'de' MMMM', às' H:mm'h",
-            {
-                locale: pt,
-            }
-        );
-
-        await Notification.create({
-            content: `Novo agendamento de ${user.name} para ${formattedDate}`,
-            user: provider_id,
-        });
-
-        return res.json(appointment);
+        return res.json(stat);
     }
 
     async delete(req, res) {
-        const appointment = await Appointment.findByPk(req.params.id, {
+        const stat = await Stat.findByPk(req.params.id, {
             include: [
                 {
                     model: User,
@@ -125,29 +104,25 @@ class StatController {
             ],
         });
 
-        if (appointment.user_id !== req.userId) {
+        if (stat.user_id !== req.userId) {
             return res.status(401).json({
-                error: "You don't have permission to cancel this appointment",
+                error: "You don't have permission to cancel this stat",
             });
         }
 
-        const dateWithSub = subHours(appointment.date, 2);
+        const dateWithSub = subHours(stat.date, 2);
 
         if (isBefore(dateWithSub, new Date())) {
             return res.status(401).json({
-                error: 'You can only cancel appointments 2 hours in advance',
+                error: 'You can only cancel stats 2 hours in advance',
             });
         }
 
-        appointment.canceled_at = new Date();
+        stat.canceled_at = new Date();
 
-        await appointment.save();
+        await stat.save();
 
-        await Queue.add(CancellationMail.key, {
-            appointment,
-        });
-
-        return res.json(appointment);
+        return res.json(stat);
     }
 }
 

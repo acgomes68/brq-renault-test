@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import UserController from './app/controllers/UserController';
 import UrlController from './app/controllers/UrlController';
+import StatController from './app/controllers/StatController';
 
 const routes = new Router();
 
@@ -9,17 +10,17 @@ const routes = new Router();
 // Public access routes
 
 // Users
-routes.get('/users/:id/urls', UserController.show);
+routes.post('/users/:id/urls', UserController.update);
+routes.get('/users/:id/stats', UserController.show);
 routes.post('/users', UserController.store);
-routes.delete('/users/:id', UserController.delete);
+routes.delete('/user/:id', UserController.delete);
 
 // Stats
-routes.get('/providers', ProviderController.index);
-routes.get('/providers/:providerId/available', AvailableController.index);
+routes.get('/stats', StatController.index);
+routes.get('/stats/:id', StatController.show);
 
 // URLs
-routes.get('/appointments', UrlController.index);
-routes.post('/appointments', UrlController.store);
-routes.delete('/appointments/:id', UrlController.delete);
+routes.get('/urls:id', UrlController.show);
+routes.delete('/urls/:id', UrlController.delete);
 
 export default routes;
