@@ -7,6 +7,7 @@ O projeto envolve a criação de serviços RESTful que permitam a geração de U
 ## Requisitos
 Para que seja realizada a instalação, construção, execução e testes são necessárias as seguintes tecnologias previamente instaladas:
 - Git
+- Make
 - Docker
 
 ## Arquitetura
