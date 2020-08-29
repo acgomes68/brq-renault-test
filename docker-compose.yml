@@ -1,14 +1,14 @@
 version: "3"
 
 services:
-  modulo-03:
+  node:
     build: .
     depends_on:
       - postgres
       - mongo
       - redis
     image: acgomes68/alpine-node:latest
-    container_name: bootcamp-${APP_NAME}
+    container_name: node-${APP_NAME}
     command: npm start
     ports:
     - ${APP_PORT}:3000

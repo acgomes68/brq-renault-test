@@ -3,32 +3,32 @@ import pt from 'date-fns/locale/pt';
 import Mail from '../../lib/Mail';
 
 class CancellationMail {
-  get key() {
-    return 'CancellationMail';
-  }
+    get key() {
+        return 'CancellationMail';
+    }
 
-  async handle({ data }) {
-    const { appointment } = data;
+    async handle({ data }) {
+        const { appointment } = data;
 
-    console.log('A fila processou!');
+        console.log('A fila processou!');
 
-    await Mail.sendMail({
-      to: `${appointment.provider.name} <${appointment.provider.email}>`,
-      subject: 'Canceled Appointment',
-      template: 'cancellation',
-      context: {
-        provider: appointment.provider.name,
-        user: appointment.user.name,
-        date: format(
-          parseISO(appointment.date),
-          "'dia' dd 'de' MMMM', às' H:mm'h",
-          {
-            locale: pt,
-          }
-        ),
-      },
-    });
-  }
+        await Mail.sendMail({
+            to: `${appointment.provider.name} <${appointment.provider.email}>`,
+            subject: 'Canceled Appointment',
+            template: 'cancellation',
+            context: {
+                provider: appointment.provider.name,
+                user: appointment.user.name,
+                date: format(
+                    parseISO(appointment.date),
+                    "'dia' dd 'de' MMMM', às' H:mm'h",
+                    {
+                        locale: pt,
+                    }
+                ),
+            },
+        });
+    }
 }
 
 export default new CancellationMail();
