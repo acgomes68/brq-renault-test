@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  modulo-03:
+    build: .
+    depends_on:
+      - postgres
+      - mongo
+      - redis
+    image: acgomes68/alpine-node:latest
+    container_name: bootcamp-${APP_NAME}
+    command: npm start
+    ports:
+    - ${APP_PORT}:3000
+    volumes:
+    - .:/usr/app
+
+  postgres:
+    image: postgres:11-alpine
+    container_name: postgres-${POSTGRES_DATABASE}
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWD}
+    ports:
+    - ${POSTGRES_PORT}:5432
+
+  mongo:
+    depends_on:
+      - postgres
+    image: mvertes/alpine-mongo:latest
+    container_name: mongo-${MONGO_DATABASE}
+    ports:
+    - ${MONGO_PORT}:27017
+
+  redis:
+    image: redis:alpine
+    container_name: redis-${REDIS_DATABASE}
+    ports:
+    - ${REDIS_PORT}:6379
