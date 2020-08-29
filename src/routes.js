@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import UserController from './app/controllers/UserController';
-import SessionController from './app/controllers/SessionController';
 import ProviderController from './app/controllers/ProviderController';
 import AppointmentController from './app/controllers/AppointmentController';
 import ScheduleController from './app/controllers/ScheduleController';
@@ -22,7 +21,7 @@ routes.post('/users', UserController.store);
 routes.delete('/users/:id', UserController.delete);
 
 // Sessions
-routes.post('/sessions', SessionController.store);
+// routes.post('/sessions', SessionController.store);
 
 /*----------------------------------------------------------------------*/
 // Restricted access routes
