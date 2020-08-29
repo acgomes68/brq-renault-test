@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import Sequelize, { Model } from 'sequelize';
 
-class File extends Model {
+class Stat extends Model {
     static init(sequelize) {
         const { APP_URL, APP_PORT } = process.env;
 
@@ -25,4 +25,4 @@ class File extends Model {
     }
 }
 
-export default File;
+export default Stat;

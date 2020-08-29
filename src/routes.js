@@ -1,13 +1,7 @@
 import { Router } from 'express';
 
 import UserController from './app/controllers/UserController';
-import ProviderController from './app/controllers/ProviderController';
-import AppointmentController from './app/controllers/AppointmentController';
-import ScheduleController from './app/controllers/ScheduleController';
-import NotificationController from './app/controllers/NotificationController';
-import AvailableController from './app/controllers/AvailableController';
-
-import authMiddlewware from './app/middlewares/auth';
+import UrlController from './app/controllers/UrlController';
 
 const routes = new Router();
 
@@ -15,36 +9,17 @@ const routes = new Router();
 // Public access routes
 
 // Users
-routes.get('/users', UserController.index);
-routes.get('/users/:id', UserController.show);
+routes.get('/users/:id/urls', UserController.show);
 routes.post('/users', UserController.store);
 routes.delete('/users/:id', UserController.delete);
 
-// Sessions
-// routes.post('/sessions', SessionController.store);
-
-/*----------------------------------------------------------------------*/
-// Restricted access routes
-routes.use(authMiddlewware);
-
-// Users
-routes.put('/users', UserController.update);
-
-// Providers
+// Stats
 routes.get('/providers', ProviderController.index);
 routes.get('/providers/:providerId/available', AvailableController.index);
 
-// Appointments
-routes.get('/appointments', AppointmentController.index);
-routes.post('/appointments', AppointmentController.store);
-routes.delete('/appointments/:id', AppointmentController.delete);
-
-// Schedules
-routes.get('/schedules', ScheduleController.index);
-routes.post('/schedules', ScheduleController.store);
-
-// Notifications
-routes.get('/notifications', NotificationController.index);
-routes.put('/notifications/:id', NotificationController.update);
+// URLs
+routes.get('/appointments', UrlController.index);
+routes.post('/appointments', UrlController.store);
+routes.delete('/appointments/:id', UrlController.delete);
 
 export default routes;

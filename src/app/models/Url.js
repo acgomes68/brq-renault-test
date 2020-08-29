@@ -1,7 +1,7 @@
 import Sequelize, { Model } from 'sequelize';
 import { isBefore, subHours } from 'date-fns';
 
-class Appointment extends Model {
+class Url extends Model {
     static init(sequelize) {
         super.init(
             {
@@ -37,4 +37,4 @@ class Appointment extends Model {
     }
 }
 
-export default Appointment;
+export default Url;

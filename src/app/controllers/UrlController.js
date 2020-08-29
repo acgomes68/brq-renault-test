@@ -9,7 +9,7 @@ import Notification from '../schemas/Notification';
 import CancellationMail from '../jobs/CancellationMail';
 import Queue from '../../lib/Queue';
 
-class AppointmentController {
+class UrlController {
     async index(req, res) {
         const { page = 1 } = req.query;
 
@@ -151,4 +151,4 @@ class AppointmentController {
     }
 }
 
-export default new AppointmentController();
+export default new UrlController();

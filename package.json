@@ -2,12 +2,15 @@
   "name": "encurtador-url",
   "version": "1.0.0",
   "description": "Serviços RESTful que permitem a geração de URLs curtas, mediante o envio da URL principal",
+  "author": {
+    "name": "Antonio Carlos Gomes",
+    "email": "acgomes68@gmail.com"
+  },
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "start": "nodemon src/server.js",
     "dev": "nodemon src/server.js",
-    "queue": "nodemon src/queue.js",
     "dev:debug": "nodemon --inspect src/server.js",
     "prd": "node src/server.js",
     "stop": "killall node"
@@ -16,6 +19,7 @@
     "bcryptjs": "^2.4.3",
     "bee-queue": "^1.2.2",
     "body-parser": "^1.15.2",
+    "cors": "^2.8.5",
     "date-fns": "^2.0.0-beta.5",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
@@ -23,6 +27,7 @@
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.1",
+    "valid-url": "^1.0.9",
     "youch": "^2.0.10",
     "yup": "^0.27.0"
   },

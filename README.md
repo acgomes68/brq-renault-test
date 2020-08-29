@@ -11,7 +11,8 @@ Para que seja realizada a instalação, construção, execução e testes são n
 
 ## Arquitetura
 Foi desenvolvida uma arquitetura voltada para microsserviços com os serviços separados em containers Docker que podem ser escalados mediante a demanda necessária. A estrutura básica foi desenvolvida em NodeJS com Express, ambos responsáveis pela gestão e roteamento das requisições HTTP usando REST.
-Foi criada uma pequena estrutura de dados relacionais com Postgres também alocado em um container específico.
+Foi criada uma pequena estrutura de dados relacionais com Postgres também alocado em um container específico contendo os dados estatísticos e um hash baseado no id auto incremental.
+Assim como os demais citados acima, também foi criado um container específico para uma base de dados não relacional do tipo chave-valor usando Redis. A principal função desse container é armazenar a URL original e o hash relacionado no Postgres.
 
 ## Tecnologias:
 - NodeJS: linguagem Javascript backend voltada para a construção das API's;

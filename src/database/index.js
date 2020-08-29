@@ -1,18 +1,16 @@
 import Sequelize from 'sequelize';
-import mongoose from 'mongoose';
 
 import User from '../app/models/User';
-import File from '../app/models/File';
-import Appointment from '../app/models/Appointment';
+import Url from '../app/models/Url';
+import Stat from '../app/models/Stat';
 
 import databaseConfig from '../config/database';
 
-const models = [User, File, Appointment];
+const models = [User, Url, Stat];
 
 class Database {
     constructor() {
         this.init();
-        this.mongo();
     }
 
     init() {
@@ -24,14 +22,6 @@ class Database {
                 model =>
                     model.associate && model.associate(this.connection.models)
             );
-    }
-
-    mongo() {
-        const mongoConfig = databaseConfig.mongo;
-        this.mongoConnection = mongoose.connect(
-            `mongodb://${mongoConfig.host}:${mongoConfig.port}/${mongoConfig.database}`,
-            { useNewUrlParser: true, useFindAndModify: true }
-        );
     }
 }
 
