@@ -17,14 +17,20 @@ Assim como os demais citados acima, também foi criado um container específico 
 
 ## Tecnologias:
 - NodeJS: linguagem Javascript backend voltada para a construção das API's;
-- Postgres: banco de dados relacional utilizado para armazenamento
+- Postgres: banco de dados relacional utilizado para armazenamento as informações estatísticas;
+- Redis: banco de dados NoSQL chave-valor utilizado para armazenamento das URLs originais e curtas;
 
 ## Dependências:
 - Gerais
+    - bee-queue: persistência de dados para Redis;
+    - body-parser: suporte ao parser de conteúdo com URL;
+    - cors: autentidação no redirecionamento de domínio;
     - date-fns: manipulação de datas;
     - dotenv: leitura de variáveis de ambiente a partir de arquivo .env;
     - express: roteamento e manipulação HTTP para API REST;
     - sequelize: persistência de dados para Postgres;
+    - pg: apoio na utilização do Postgres;
+    - valid-url: validação do formato URL;
     - youch: tratamento de erros e exceções;
     - yup: validação de dados postados;
 
