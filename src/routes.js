@@ -10,10 +10,11 @@ const routes = new Router();
 // Public access routes
 
 // Users
-routes.post('/users/:id/urls', UserController.update);
+routes.get('/users', UserController.index); // OK
 routes.get('/users/:id/stats', UserController.show);
-routes.post('/users', UserController.store);
-routes.delete('/user/:id', UserController.delete);
+routes.post('/users/:id/urls', UserController.update);
+routes.post('/users', UserController.store); // OK
+routes.delete('/user/:id', UserController.delete); // OK
 
 // Stats
 routes.get('/stats', StatController.index);
