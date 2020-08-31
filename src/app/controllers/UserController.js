@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import User from '../models/User';
-import Url from '../models/Url';
+// import Url from '../models/Url';
 
 // const validUrl = require('valid-url');
 
