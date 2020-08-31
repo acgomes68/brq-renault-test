@@ -9,6 +9,7 @@ class Url extends Model {
             },
             {
                 sequelize,
+                paranoid: true,
             }
         );
 
