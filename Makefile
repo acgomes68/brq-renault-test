@@ -1,4 +1,4 @@
-# Makefile for Docker NodeJS Postgres Redis
+# Makefile for Docker NodeJS Postgres
 
 include .env
 
@@ -8,64 +8,64 @@ help:
 	@echo ""
 	@echo "Commands:"
 	@echo "  clean      Clean directories for reset"
-	@echo "  update     Update Node dependencies with yarn"
-	@echo "  install    Create and start containers"
-	@echo "  uninstall  Stop and clear all services"
+	@echo "  install    Create and start containers, create database, run migrations and seeds"
 	@echo "  logs       Watch log output"
+	@echo "  restart    Restart all containers"
 	@echo "  start      Start all containers"
 	@echo "  stop       Stop all services"
-	@echo "  restart    Restart all containers"
-	@echo "  test       Test application"
+	@echo "  test       Run eslint and application unit tests "
+	@echo "  uninstall  Stop and clear all services"
+	@echo "  update     Update Node dependencies with yarn"
 
 init:
-	@$(shell cp -n $(shell pwd)/frontend/web/app/composer.json.dist $(shell pwd)/frontend/web/app/composer.json 2> /dev/null)
+	@docker run --rm -v $(shell pwd)/app:/app yarn install
 
 clean:
-	@rm -Rf ./frontend/data/db/mysql/*
-	@rm -Rf ./frontend/web/app/vendor
-	@rm -Rf ./frontend/web/app/composer.lock
-	@rm -Rf ./frontend/web/app/doc
-	@rm -Rf ./frontend/web/app/report
-	@rm -Rf ./frontend/etc/ssl/*
+	@docker-compose exec node yarn eslint --fix src --ext .js
 
-update: init
-	@docker run --rm -v $(shell pwd)/frontend/web/public:/app acgomes68/alpine-php-cli-composer:7.2.15 update
+createdb:
+	@docker-compose exec postgres psql -U $(POSTGRES_USER) --command="CREATE DATABASE $(POSTGRES_DATABASE)" > /dev/null
 
 install: init
 	@make start
-	@make create-db
-    @make migrations
-    @make seeds
+	@make createdb
+	@make migrations
+	@make seeds
+	@make test
+
+lint:
+	@docker-compose exec node yarn eslint --fix src --ext .js
+
+logs:
+	@docker-compose logs -f
 
 migrations:
-    @docker run --rm -v $(shell pwd)/app:/app yarn sequelize db:migrate
+	@docker-compose exec node yarn sequelize db:migrate
+
+restart:
+	@docker-compose restart
 
 seeds:
-    @docker run --rm -v $(shell pwd)/app:/app yarn sequelize db:seed:all
+	@docker-compose exec node yarn sequelize db:seed:all
+
+start:
+	@docker-compose up -d
+
+stop:
+	@docker-compose down -v --remove-orphans
+
+test:
+	@make lint
+	@#make unit
 
 uninstall:
 	@make stop
 	@make clean
 
-start:
-	@docker-compose up -d
-	@make resetOwner
+unit:
+	@docker-compose exec node yarn eslint --fix src --ext .js
 
-stop:
-	@docker-compose down -v --remove-orphans
+update: init
+	@docker run --rm -v $(shell pwd):/app acgomes68/alpine-node:latest yarn install && yarn upgrade
 
-restart:
-	@docker-compose restart
-	@make resetOwner
-
-logs:
-	@docker-compose logs -f
-
-test: code-sniff
-	@docker-compose exec -T php ./app/vendor/bin/phpunit --colors=always --configuration ./app/
-	@make resetOwner
-
-resetOwner:
-	@$(shell chown -Rf $(SUDO_USER):$(shell id -g -n $(SUDO_USER)) $(MYSQL_DUMPS_DIR) "$(shell pwd)/frontend/etc/ssl" "$(shell pwd)/frontend/web/app" 2> /dev/null)
-
-.PHONY: clean test code-sniff init
+.PHONY: clean test init

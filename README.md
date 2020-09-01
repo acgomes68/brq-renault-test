@@ -1,88 +1,92 @@
 # brq-renault-test
-Avaliação aplicada no processo seletivo da BRQ para uma vaga de Desenvolvedor NodeJS na Renault.
+Avaliação aplicada no processo seletivo da <b>BRQ</b> para uma vaga de <b>Desenvolvedor NodeJS</b> na <b>Renault</b>.
+<br /><br />
 
 ## Descrição
-O projeto envolve a criação de serviços RESTful que permitam a geração de URLs curtas, mediante o envio da URL principal.
+O projeto envolve a criação de <b>serviços RESTful</b> que permitam a geração de <b>URLs curtas</b>, mediante o envio da URL principal.
+<br /><br />
 
 ## Requisitos
-Para que seja realizada a instalação, construção, execução e testes são necessárias as seguintes tecnologias previamente instaladas:
+Para que seja realizada a instalação, construção, execução e testes são necessárias as seguintes tecnologias previamente instaladas que devem ser verificadas através do <b>terminal(Linux/MacOS)</b> ou <b>CommandShell/CMD/PowerShell (Windows)</b>:
 
-- Git
+- <b>Git</b>
 
-Para confirmar se já está instalado:
-git --version
+    Para confirmar se já está instalado:<br />
+<code>git --version</code>
 
-Caso ainda não esteja instalado:
+    Caso ainda não esteja instalado:
 https://git-scm.com/book/pt-br/v2/Come%C3%A7ando-Instalando-o-Git
+<br /><br />
 
+- <b>Make</b>
 
-- Make
+    Para confirmar se já está instalado:<br />
+    <code>make --version</code>
 
-Para confirmar se já está instalado:
-make --version
+    Caso ainda não esteja instalado:<br />
 
-Caso ainda não esteja instalado:
-Linux:
-sudo apt-get install build-essential
+    - <b>Linux:</b><br />
+<code>sudo apt-get install build-essential</code>
 
-Windows:
+    - <b>Windows</b>
 http://gnuwin32.sourceforge.net/packages/make.htm
+<br /><br />
 
+- <b>Docker:</b>
 
-- Docker:
+    Para confirmar se já está instalado:<br />
+<code>docker --version</code>
 
-Para confirmar se já está instalado:
-docker --version
-
-Caso ainda não esteja instalado:
+    Caso ainda não esteja instalado:
 https://www.docker.com/community-edition#/download
 
 
-- Docker-compose:
-Normalmente, ao instalar o Docker, o Compose também é instalado. Para confirmar se já está instalado:
-docker-compose --version
+- <b>Docker-compose</b>:
+Normalmente, ao instalar o Docker, o Compose também é instalado. Para confirmar se já está instalado:<br />
+<code>docker-compose --version</code>
 
-Caso ainda não esteja instalado:
+    Caso ainda não esteja instalado:
 https://docs.docker.com/compose/install/
-
+<br /><br />
 
 ## Arquitetura
 Foi desenvolvida uma arquitetura voltada para microsserviços com os serviços separados em containers Docker que podem ser escalados mediante a demanda necessária. A estrutura básica foi desenvolvida em NodeJS com Express, ambos responsáveis pela gestão e roteamento das requisições HTTP usando REST.
-Foi criada uma pequena estrutura de dados relacionais com Postgres também alocado em um container específico contendo os dados estatísticos e um hash baseado no id auto incremental.
-Assim como os demais citados acima, também foi criado um container específico para uma base de dados não relacional do tipo chave-valor usando Redis. A principal função desse container é armazenar a URL original e o hash relacionado no Postgres.
+Foi criada uma pequena estrutura de dados relacionais com Postgres também alocado em um container específico contendo os dados estatísticos e um hash curto, único e aleatório gerado automaticamente.
+<br /><br />
 
 ## Tecnologias:
-- NodeJS: linguagem Javascript backend voltada para a construção das API's;
-- Postgres: banco de dados relacional utilizado para armazenamento as informações estatísticas;
-- Redis: banco de dados NoSQL chave-valor utilizado para armazenamento das URLs originais e curtas;
+- <b>NodeJS</b>: linguagem Javascript backend voltada para a construção das API's;
+- <b>Postgres</b>: banco de dados relacional utilizado para armazenamento as informações estatísticas;
+<br /><br />
 
 ## Dependências:
 - Gerais
-    - bee-queue: persistência de dados para Redis;
-    - body-parser: suporte ao parser de conteúdo para requisições HTTP;
-    - cors: autentidação no redirecionamento de domínio;
-    - date-fns: manipulação de datas;
-    - dotenv: leitura de variáveis de ambiente a partir de arquivo .env;
-    - express: roteamento e manipulação HTTP para API REST;
-    - sequelize: persistência de dados para Postgres;
-    - pg: apoio na utilização do Postgres;
-    - valid-url: validação do formato URL;
-    - youch: tratamento de erros e exceções;
-    - yup: validação de dados postados;
+    - <b>body-parser</b>: suporte ao parser de conteúdo para requisições HTTP;
+    - <b>cors</b>: autentidação no redirecionamento de domínio;
+    - <b>dotenv</b>: leitura de variáveis de ambiente a partir de arquivo .env;
+    - <b>express</b>: roteamento e manipulação HTTP para API REST;
+    - <b>pg</b>: apoio na utilização do Postgres;
+    - <b>sequelize</b>: persistência de dados para Postgres;
+    - <b>shortid</b>: gerador de ids curtos;
+    - <b>valid-url</b>: validação do formato URL;
+    - <b>youch</b>: tratamento de erros e exceções;
+    - <b>yup</b>: validação de dados postados;
 
 - Específicas do ambiente de desenvolvimento
-    - eslint: formatação e validação de sintaxe;
-    - nodemon: monitora o serviço HTTP do node;
-    - prettier: formatação do código;
-    - sequelize-cli: execução de testes e migrations através da persistência com Postgres;
-    - sucrase: adaptação do código para ES6;
+    - <b>eslint</b>: formatação e validação de sintaxe;
+    - <b>nodemon</b>: monitora o serviço HTTP do node;
+    - <b>prettier</b>: formatação do código;
+    - <b>sequelize-cli</b>: execução de testes e migrations através da persistência com Postgres;
+    - <b>sucrase</b>: adaptação do código para ES6;
+<br /><br />
 
 ## Instalação
-make install
+<code>make install</code>
+<br /><br />
 
 ## Testes
-make test
-
+<code>make test</code>
+<br /><br />
 
 ## Referências
 https://codeforgeek.com/url-shortener-node-js-redis/

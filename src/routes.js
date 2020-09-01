@@ -17,8 +17,9 @@ routes.post('/users', UserController.store); // OK
 routes.delete('/user/:id', UserController.delete); // OK
 
 // Stats
-routes.get('/stats', StatController.index); // OK
-routes.get('/stats/:UrlId', StatController.show); // OK
+
+routes.get('/stats/:UrlId', StatController.show);
+routes.get('/stats', StatController.index);
 
 // URLs
 routes.get('/urls/:id', UrlController.show);

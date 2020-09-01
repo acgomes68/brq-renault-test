@@ -31,7 +31,7 @@ module.exports = {
     },
     development: {
         dialect: 'postgres',
-        host: '0.0.0.0',
+        host: 'postgres',
         username: POSTGRES_USER,
         password: POSTGRES_PASSWD,
         database: POSTGRES_DATABASE,
