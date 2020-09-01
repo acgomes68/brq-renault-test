@@ -81,11 +81,22 @@ Foi criada uma pequena estrutura de dados relacionais com Postgres também aloca
 <br /><br />
 
 ## Instalação
-<code>make install</code>
+<code>make install</code><br />
+
+Após o final da instalação, acessar os serviços através do endpoint:<br />
+http://localhost:3000/
+
+Exemplo:<br />
+http://localhost:3000/users
 <br /><br />
 
 ## Testes
 <code>make test</code>
+<br /><br />
+
+## Modelo de dados
+
+![Screenshot](der-encurtador-url.png)
 <br /><br />
 
 ## Referências
