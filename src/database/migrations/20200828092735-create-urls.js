@@ -9,14 +9,15 @@ module.exports = {
                 autoIncrement: true,
                 primaryKey: true,
             },
-            hits: {
-                type: Sequelize.INTEGER,
-                default: 0,
-                allowNull: false,
-            },
-            hash: {
+            url: {
                 type: Sequelize.STRING,
                 allowNull: false,
+                unique: true,
+            },
+            short_url: {
+                type: Sequelize.STRING,
+                allowNull: false,
+                unique: true,
             },
             user_id: {
                 type: Sequelize.INTEGER,
@@ -24,6 +25,11 @@ module.exports = {
                 onUpdate: 'CASCADE',
                 onDelete: 'SET NULL',
                 allowNull: true,
+            },
+            hits: {
+                type: Sequelize.INTEGER,
+                default: 0,
+                allowNull: false,
             },
             created_at: {
                 type: Sequelize.DATE,

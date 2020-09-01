@@ -23,7 +23,7 @@ Assim como os demais citados acima, também foi criado um container específico 
 ## Dependências:
 - Gerais
     - bee-queue: persistência de dados para Redis;
-    - body-parser: suporte ao parser de conteúdo com URL;
+    - body-parser: suporte ao parser de conteúdo para requisições HTTP;
     - cors: autentidação no redirecionamento de domínio;
     - date-fns: manipulação de datas;
     - dotenv: leitura de variáveis de ambiente a partir de arquivo .env;

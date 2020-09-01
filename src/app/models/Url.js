@@ -4,8 +4,9 @@ class Url extends Model {
     static init(sequelize) {
         super.init(
             {
+                url: Sequelize.STRING,
+                shortUrl: Sequelize.STRING,
                 hits: Sequelize.INTEGER,
-                hash: Sequelize.STRING,
             },
             {
                 sequelize,
@@ -16,7 +17,7 @@ class Url extends Model {
     }
 
     static associate(models) {
-        this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+        this.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
     }
 }
 

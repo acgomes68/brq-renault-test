@@ -56,18 +56,19 @@ class UserController {
     }
 
     async update(req, res) {
-        const { id } = req.params;
         const { url } = req.body;
         const schema = Yup.object().shape({
-            id: Yup.int().required(),
-            urls: Yup.string().required(),
+            url: Yup.string().required(),
         });
 
         if (!(await schema.isValid(req.body))) {
             return res.status(400).json({ error: 'Validation fails' });
         }
         try {
-            const user = await User.findByPk(id);
+            const { userId } = req.params;
+            const shortUrl = shortId.generate();
+            const user = await User.findByPk(userId);
+
             if (!user) {
                 return res.status(400).json({ error: 'User not found' });
             }
@@ -75,25 +76,19 @@ class UserController {
             if (!validUrl.isUri(url)) {
                 return res.status(400).json({ error: 'Invalid URL' });
             }
-            const hash = shortId.generate;
-            // res.send(req.hostname + '/' +hash);
-            // catch(e) {
-            //     console.log(e);
-            //     res.send('error occurred while storing URL.');
-            // }
-            const hasItem = await Url.findOne({
-                where: { id, hash: url },
+
+            const urls = await Url.create({
+                url,
+                shortUrl,
+                userId,
+                hits: 0,
             });
 
-            if (hasItem) {
-                return res.status(400).json({ error: 'URLS already exists' });
-            }
-
-            const { user_id, urls } = await Url.update(req.body);
-
             return res.json({
-                user_id,
                 urls,
+                url,
+                shortUrl,
+                userId,
             });
         } catch (error) {
             return res.status(502).json({ error });

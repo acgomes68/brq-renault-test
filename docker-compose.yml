@@ -17,7 +17,7 @@ services:
 
   postgres:
     image: postgres:11-alpine
-    restart: always
+    # restart: always
     container_name: postgres-${POSTGRES_DATABASE}
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWD}
