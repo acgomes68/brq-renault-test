@@ -21,7 +21,7 @@ routes.get('/stats', StatController.index); // OK
 routes.get('/stats/:UrlId', StatController.show); // OK
 
 // URLs
-routes.get('/urls:id', UrlController.show);
+routes.get('/urls/:id', UrlController.show);
 routes.delete('/urls/:id', UrlController.delete);
 
 export default routes;

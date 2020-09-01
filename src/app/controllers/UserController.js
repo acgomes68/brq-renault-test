@@ -17,35 +17,39 @@ class UserController {
     }
 
     async show(req, res) {
-        const { userId } = req.params;
-        const hasUser = await User.findByPk(userId);
+        try {
+            const { userId } = req.params;
+            const hasUser = await User.findByPk(userId);
 
-        if (!hasUser) {
-            return res.status(404).json({ error: 'User not found' });
+            if (!hasUser) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+
+            const hits = await Url.sum('hits', {
+                where: { userId },
+            });
+            const urlCount = await Url.count({ where: { userId } });
+            const topUrls = await Url.findAll({
+                where: { userId },
+                order: [['hits', 'DESC']],
+                attributes: ['id', 'hits', 'url', 'short_url'],
+                limit: 10,
+            });
+            return res.json({ hits, urlCount, topUrls });
+        } catch (error) {
+            return res.status(502).json({ error });
         }
-
-        const hits = await Url.sum('hits', {
-            where: { userId },
-        });
-        const urlCount = await Url.count({ where: { userId } });
-        const topUrls = await Url.findAll({
-            where: { userId },
-            order: [['hits', 'DESC']],
-            attributes: ['id', 'hits', 'url', 'short_url'],
-            limit: 10,
-        });
-        return res.json({ hits, urlCount, topUrls });
     }
 
     async store(req, res) {
-        const schema = Yup.object().shape({
-            name: Yup.string().required(),
-        });
-
-        if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({ error: 'Validation fails' });
-        }
         try {
+            const schema = Yup.object().shape({
+                name: Yup.string().required(),
+            });
+
+            if (!(await schema.isValid(req.body))) {
+                return res.status(400).json({ error: 'User name is required' });
+            }
             const hasItem = await User.findOne({
                 where: { name: req.body.name },
             });
@@ -66,15 +70,15 @@ class UserController {
     }
 
     async update(req, res) {
-        const { url } = req.body;
-        const schema = Yup.object().shape({
-            url: Yup.string().required(),
-        });
-
-        if (!(await schema.isValid(req.body))) {
-            return res.status(400).json({ error: 'Validation fails' });
-        }
         try {
+            const { url } = req.body;
+            const schema = Yup.object().shape({
+                url: Yup.string().required(),
+            });
+
+            if (!(await schema.isValid(req.body))) {
+                return res.status(400).json({ error: 'URL is required' });
+            }
             const { userId } = req.params;
             const shortUrl = shortId.generate();
             const hasUser = await User.findByPk(userId);
@@ -117,8 +121,8 @@ class UserController {
     }
 
     async delete(req, res) {
-        const { id } = req.params;
         try {
+            const { id } = req.params;
             const user = await User.findByPk(id);
             if (!user) {
                 return res.status(404).json({ error: 'User not found' });
