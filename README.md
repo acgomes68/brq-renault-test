@@ -6,9 +6,45 @@ O projeto envolve a criação de serviços RESTful que permitam a geração de U
 
 ## Requisitos
 Para que seja realizada a instalação, construção, execução e testes são necessárias as seguintes tecnologias previamente instaladas:
+
 - Git
+
+Para confirmar se já está instalado:
+git --version
+
+Caso ainda não esteja instalado:
+https://git-scm.com/book/pt-br/v2/Come%C3%A7ando-Instalando-o-Git
+
+
 - Make
-- Docker
+
+Para confirmar se já está instalado:
+make --version
+
+Caso ainda não esteja instalado:
+Linux:
+sudo apt-get install build-essential
+
+Windows:
+http://gnuwin32.sourceforge.net/packages/make.htm
+
+
+- Docker:
+
+Para confirmar se já está instalado:
+docker --version
+
+Caso ainda não esteja instalado:
+https://www.docker.com/community-edition#/download
+
+
+- Docker-compose:
+Normalmente, ao instalar o Docker, o Compose também é instalado. Para confirmar se já está instalado:
+docker-compose --version
+
+Caso ainda não esteja instalado:
+https://docs.docker.com/compose/install/
+
 
 ## Arquitetura
 Foi desenvolvida uma arquitetura voltada para microsserviços com os serviços separados em containers Docker que podem ser escalados mediante a demanda necessária. A estrutura básica foi desenvolvida em NodeJS com Express, ambos responsáveis pela gestão e roteamento das requisições HTTP usando REST.
@@ -41,9 +77,8 @@ Assim como os demais citados acima, também foi criado um container específico 
     - sequelize-cli: execução de testes e migrations através da persistência com Postgres;
     - sucrase: adaptação do código para ES6;
 
-
 ## Instalação
-
+make install
 
 ## Testes
-
+make test

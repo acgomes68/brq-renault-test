@@ -34,6 +34,14 @@ update: init
 install: init
 	@make start
 	@make create-db
+    @make migrations
+    @make seeds
+
+migrations:
+    @docker run --rm -v $(shell pwd)/app:/app yarn sequelize db:migrate
+
+seeds:
+    @docker run --rm -v $(shell pwd)/app:/app yarn sequelize db:seed:all
 
 uninstall:
 	@make stop
