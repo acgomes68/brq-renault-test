@@ -89,10 +89,10 @@ Foi criada uma pequena estrutura de dados relacionais com Postgres também aloca
 <br /><br />
 
 ## Referências
-https://codeforgeek.com/url-shortener-node-js-redis/
-https://scalegrid.io/blog/how-to-build-a-url-shortener-with-node-js-and-mongodb/
-https://blog.hotmart.com/pt-br/encurtador-de-url/
-https://www.codechain.com.br/2018/11/29/aws-experience-encurtador-de-url/
-https://dfilitto.com.br/ferramentas/encurtador-de-link/
-https://www.encurtador.com.br/
-https://developer.aliyun.com/mirror/npm/package/node-short-url
+https://codeforgeek.com/url-shortener-node-js-redis/<br />
+https://scalegrid.io/blog/how-to-build-a-url-shortener-with-node-js-and-mongodb/<br />
+https://blog.hotmart.com/pt-br/encurtador-de-url/<br />
+https://www.codechain.com.br/2018/11/29/aws-experience-encurtador-de-url/<br />
+https://dfilitto.com.br/ferramentas/encurtador-de-link/<br />
+https://www.encurtador.com.br/<br />
+https://developer.aliyun.com/mirror/npm/package/node-short-url<br />
