@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import * as Yup from 'yup';
 import * as validUrl from 'valid-url';
 import * as shortId from 'shortid';
@@ -15,16 +17,24 @@ class UserController {
     }
 
     async show(req, res) {
-        const { id } = req.params;
-        try {
-            const user = await User.findByPk(id);
-            if (!user) {
-                return res.status(400).json({ error: 'User not found' });
-            }
-            return res.json(user);
-        } catch (error) {
-            return res.status(502).json({ error });
+        const { userId } = req.params;
+        const hasUser = await User.findByPk(userId);
+
+        if (!hasUser) {
+            return res.status(404).json({ error: 'User not found' });
         }
+
+        const hits = await Url.sum('hits', {
+            where: { userId },
+        });
+        const urlCount = await Url.count({ where: { userId } });
+        const topUrls = await Url.findAll({
+            where: { userId },
+            order: [['hits', 'DESC']],
+            attributes: ['id', 'hits', 'url', 'short_url'],
+            limit: 10,
+        });
+        return res.json({ hits, urlCount, topUrls });
     }
 
     async store(req, res) {
@@ -67,28 +77,39 @@ class UserController {
         try {
             const { userId } = req.params;
             const shortUrl = shortId.generate();
-            const user = await User.findByPk(userId);
+            const hasUser = await User.findByPk(userId);
 
-            if (!user) {
-                return res.status(400).json({ error: 'User not found' });
+            if (!hasUser) {
+                return res.status(404).json({ error: 'User not found' });
             }
 
             if (!validUrl.isUri(url)) {
                 return res.status(400).json({ error: 'Invalid URL' });
             }
 
+            const hasUrl = await Url.findOne({
+                where: { url },
+            });
+
+            if (hasUrl) {
+                return res.status(400).json({ error: 'URL already exists' });
+            }
+
+            const { APP_URL } = process.env;
+            const { APP_PORT } = process.env;
+
             const urls = await Url.create({
                 url,
-                shortUrl,
+                shortUrl: `${APP_URL}:${APP_PORT}/${shortUrl}`,
                 userId,
                 hits: 0,
             });
 
-            return res.json({
-                urls,
-                url,
-                shortUrl,
-                userId,
+            return res.status(201).json({
+                id: urls.id,
+                hits: urls.hits,
+                url: urls.url,
+                shortUrl: urls.shortUrl,
             });
         } catch (error) {
             return res.status(502).json({ error });
@@ -100,7 +121,7 @@ class UserController {
         try {
             const user = await User.findByPk(id);
             if (!user) {
-                return res.status(400).json({ error: 'User not found' });
+                return res.status(404).json({ error: 'User not found' });
             }
             await user.destroy();
             return res.json(user);

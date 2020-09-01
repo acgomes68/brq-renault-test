@@ -2,37 +2,34 @@ import * as Yup from 'yup';
 import { startOfHour, parseISO, isBefore, subHours } from 'date-fns';
 import Stat from '../models/Stat';
 import User from '../models/User';
+import Url from '../models/Url';
 
 class StatController {
     async index(req, res) {
-        const { page = 1 } = req.query;
-
-        const stats = await Stat.findAll({
-            where: { user_id: req.userId, canceled_at: null },
-            order: ['date'],
-            attributes: ['id', 'date', 'past', 'cancelable'],
-            limit: 20,
-            offset: (page - 1) * 20,
-            include: [
-                {
-                    model: User,
-                    as: 'user',
-                    attributes: ['id', 'name', 'email'],
-                },
-                {
-                    model: User,
-                    as: 'provider',
-                    attributes: ['id', 'name', 'email'],
-                },
-            ],
+        const hits = await Url.sum('hits');
+        const urlCount = await Url.count();
+        const topUrls = await Url.findAll({
+            order: [['hits', 'DESC']],
+            attributes: ['id', 'hits', 'url', 'short_url'],
+            limit: 10,
         });
-        return res.json(stats);
+        return res.json({ hits, urlCount, topUrls });
     }
 
     async show(req, res) {
-        const { id } = req.params;
-        const stat = await Stat.findByPk(id);
-        return res.json(stat);
+        const { UrlId } = req.params;
+        const urls = await Url.findByPk(UrlId);
+
+        if (!urls) {
+            return res.status(404).json({ error: 'URL not found' });
+        }
+
+        return res.json({
+            id: urls.id,
+            hits: urls.hits,
+            url: urls.url,
+            shortUrl: urls.shortUrl,
+        });
     }
 
     async store(req, res) {
