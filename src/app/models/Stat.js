@@ -18,7 +18,6 @@ class Stat extends Model {
             },
             {
                 sequelize,
-                paranoid: true,
             }
         );
 

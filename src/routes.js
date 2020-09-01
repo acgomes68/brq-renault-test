@@ -11,8 +11,8 @@ const routes = new Router();
 
 // Users
 routes.get('/users', UserController.index); // OK
-routes.get('/users/:user_id/stats', UserController.show);
-// routes.post('/users/:user_id/urls', UserController.update);
+routes.get('/users/:id/stats', UserController.show);
+routes.post('/users/:id/urls', UserController.update);
 routes.post('/users', UserController.store); // OK
 routes.delete('/user/:id', UserController.delete); // OK
 

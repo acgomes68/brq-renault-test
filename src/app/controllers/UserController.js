@@ -1,8 +1,8 @@
 import * as Yup from 'yup';
+import * as validUrl from 'valid-url';
+import * as shortId from 'shortid';
 import User from '../models/User';
-// import Url from '../models/Url';
-
-// const validUrl = require('valid-url');
+import Url from '../models/Url';
 
 class UserController {
     async index(req, res) {
@@ -55,49 +55,50 @@ class UserController {
         }
     }
 
-    // async update(req, res) {
-    //     const { user_id, urls } = req.body;
-    //     const schema = Yup.object().shape({
-    //         user_id: Yup.int().required(),
-    //         urls: Yup.string().required(),
-    //     });
+    async update(req, res) {
+        const { id } = req.params;
+        const { url } = req.body;
+        const schema = Yup.object().shape({
+            id: Yup.int().required(),
+            urls: Yup.string().required(),
+        });
 
-    //     if (!(await schema.isValid(req.body))) {
-    //         return res.status(400).json({ error: 'Validation fails' });
-    //     }
-    //     try {
-    //         const user = await User.findByPk(user_id);
-    //         if (!user) {
-    //             return res.status(400).json({ error: 'User not found' });
-    //         }
+        if (!(await schema.isValid(req.body))) {
+            return res.status(400).json({ error: 'Validation fails' });
+        }
+        try {
+            const user = await User.findByPk(id);
+            if (!user) {
+                return res.status(400).json({ error: 'User not found' });
+            }
 
-    //         if (!validUrl.isUri(urls)) {
-    //             return res.status(400).json({ error: 'Invalid URL' });
-    //         }
-    //         // let hash = await models.storeURL(req.body.url);
-    //         // res.send(req.hostname + '/' +hash);
-    //         // catch(e) {
-    //         //     console.log(e);
-    //         //     res.send('error occurred while storing URL.');
-    //         // }
-    //         const hasItem = await Url.findOne({
-    //             where: { user_id, urls },
-    //         });
+            if (!validUrl.isUri(url)) {
+                return res.status(400).json({ error: 'Invalid URL' });
+            }
+            const hash = shortId.generate;
+            // res.send(req.hostname + '/' +hash);
+            // catch(e) {
+            //     console.log(e);
+            //     res.send('error occurred while storing URL.');
+            // }
+            const hasItem = await Url.findOne({
+                where: { id, hash: url },
+            });
 
-    //         if (hasItem) {
-    //             return res.status(400).json({ error: 'URLS already exists' });
-    //         }
+            if (hasItem) {
+                return res.status(400).json({ error: 'URLS already exists' });
+            }
 
-    //         const { user_id, urls } = await Url.update(req.body);
+            const { user_id, urls } = await Url.update(req.body);
 
-    //         return res.json({
-    //             user_id,
-    //             urls,
-    //         });
-    //     } catch (error) {
-    //         return res.status(502).json({ error });
-    //     }
-    // }
+            return res.json({
+                user_id,
+                urls,
+            });
+        } catch (error) {
+            return res.status(502).json({ error });
+        }
+    }
 
     async delete(req, res) {
         const { id } = req.params;

@@ -8,7 +8,6 @@ class User extends Model {
             },
             {
                 sequelize,
-                paranoid: true,
             }
         );
 
