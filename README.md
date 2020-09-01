@@ -99,6 +99,12 @@ http://localhost:3000/users
 ![Screenshot](der-encurtador-url.png)
 <br /><br />
 
+## GUI Teste API's
+Foi utilizado o Insomnia para teste manual de cada serviço da API. Arquivo JSON contendo as informações, bem como os parâmetros utilizados disponíveis no repositório para importação, caso seja conveniente.
+
+![Screenshot](insomnia-view.png)
+<br /><br />
+
 ## Referências
 https://codeforgeek.com/url-shortener-node-js-redis/<br />
 https://scalegrid.io/blog/how-to-build-a-url-shortener-with-node-js-and-mongodb/<br />
