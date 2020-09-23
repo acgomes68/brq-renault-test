@@ -96,13 +96,13 @@ http://localhost:3000/users
 
 ## Modelo de dados
 
-![Screenshot](der-encurtador-url.png)
+![Screenshot](public/der-encurtador-url.png)
 <br /><br />
 
 ## GUI Teste API's
-Foi utilizado o Insomnia para teste manual de cada serviço da API. Arquivo JSON contendo as informações, bem como os parâmetros utilizados disponíveis no repositório para importação, caso seja conveniente.
+Foi utilizado o Insomnia para teste manual de cada serviço da API. Arquivo JSON contendo as informações, bem como os parâmetros utilizados disponíveis no repositório em [./public/insomnia-encurtador-url.json](./public/insomnia-encurtador-url.json) para importação, caso seja conveniente.
 
-![Screenshot](insomnia-view.png)
+![Screenshot](public/insomnia-view.png)
 <br /><br />
 
 ## Referências

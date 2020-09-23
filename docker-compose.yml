@@ -8,11 +8,11 @@ services:
     image: acgomes68/alpine-node:latest
     # restart: always
     container_name: node-${APP_NAME}
-    command: npm start
+    command: yarn start
     ports:
-    - ${APP_PORT}:3000
+    - ${APP_PORT}:3333
     volumes:
-    - .:/usr/app
+    - .:/home/node/app
 
   postgres:
     image: postgres:11-alpine
