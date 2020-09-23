@@ -22,11 +22,12 @@ help:
 	@echo "  update     Update Node dependencies with yarn"
 
 init:
-	@docker run --rm -v $(shell pwd):/home/node/app acgomes68/alpine-node:latest yarn install && yarn upgrade
+	@make node-up
+	@docker-compose exec node yarn install
 
 clean:
 	@make node-up
-	@docker-compose exec node rm -Rf app/node_modules
+	@docker-compose exec node rm -Rf /home/node/app/node_modules
 
 create-db:
 	@make drop-db
@@ -35,7 +36,6 @@ create-db:
 drop-db:
 	@make postgres-up
 	@docker-compose exec postgres psql -U $(POSTGRES_USER) --command="DROP DATABASE IF EXISTS $(POSTGRES_DATABASE);"
-	# @make postgres-down
 
 install: init
 	@make start
@@ -45,18 +45,20 @@ install: init
 	@make test
 
 lint:
+	@make node-up
 	@docker-compose exec node yarn eslint --fix src --ext .js
 
 logs:
 	@docker-compose logs -f
 
 migrations:
+	@make node-up
 	@docker-compose exec node yarn sequelize db:migrate
 
 node-up:
 	@if [ "$(NODE_UP)" = '' ]; then\
 		echo "Node is down";\
-		docker-compose up -d node;\
+		docker-compose up -d --no-deps node;\
 	else\
 		echo "Node is up";\
 	fi;
@@ -80,7 +82,7 @@ postgres-down:
 postgres-up:
 	@if [ "$(POSTGRES_UP)" = '' ]; then\
 		echo "Postgres is down";\
-		docker-compose up -d postgres;\
+		docker-compose up -d --no-deps postgres;\
 	else\
 		echo "Postgres is up";\
 	fi;
@@ -89,6 +91,7 @@ restart:
 	@docker-compose restart
 
 seeds:
+	@make node-up
 	@docker-compose exec node yarn sequelize db:seed:all
 
 start:
@@ -110,9 +113,11 @@ uninstall:
 	@make drop-db;
 
 unit:
+	@make node-up
 	@docker-compose exec node yarn eslint --fix src --ext .js
 
 update: init
-
+	@make node-up
+	@docker-compose exec node yarn upgrade
 
 .PHONY: clean test init

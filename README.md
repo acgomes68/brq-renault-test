@@ -81,13 +81,14 @@ Foi criada uma pequena estrutura de dados relacionais com Postgres também aloca
 <br /><br />
 
 ## Instalação
+Atualizar as informações no arquivo .env.example e renomeá-lo para .env. Após isso, através do terminal executar:<br />
 <code>make install</code><br />
 
 Após o final da instalação, acessar os serviços através do endpoint:<br />
-http://localhost:3000/
+http://localhost:3333/
 
 Exemplo:<br />
-http://localhost:3000/users
+http://localhost:3333/users
 <br /><br />
 
 ## Testes
@@ -100,7 +101,7 @@ http://localhost:3000/users
 <br /><br />
 
 ## GUI Teste API's
-Foi utilizado o Insomnia para teste manual de cada serviço da API. Arquivo JSON contendo as informações, bem como os parâmetros utilizados disponíveis no repositório em [./public/insomnia-encurtador-url.json](./public/insomnia-encurtador-url.json) para importação, caso seja conveniente.
+Foi utilizado o [Insomnia](https://insomnia.rest/) para teste manual de cada serviço da API. Arquivo JSON contendo as informações, bem como os parâmetros utilizados disponíveis no repositório em [./public/insomnia-encurtador-url.json](./public/insomnia-encurtador-url.json) para importação, caso seja conveniente.
 
 ![Screenshot](public/insomnia-view.png)
 <br /><br />
